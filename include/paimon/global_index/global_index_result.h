@@ -20,6 +20,8 @@
 #include <string>
 #include <utility>
 
+#include "paimon/memory/bytes.h"
+#include "paimon/memory/memory_pool.h"
 #include "paimon/result.h"
 #include "paimon/visibility.h"
 
@@ -62,6 +64,16 @@ class PAIMON_EXPORT GlobalIndexResult : public std::enable_shared_from_this<Glob
         const std::shared_ptr<GlobalIndexResult>& other);
 
     virtual std::string ToString() const = 0;
+
+    static Result<PAIMON_UNIQUE_PTR<Bytes>> Serialize(
+        const std::shared_ptr<GlobalIndexResult>& global_index_result,
+        const std::shared_ptr<MemoryPool>& pool);
+
+    static Result<std::shared_ptr<GlobalIndexResult>> Deserialize(
+        const char* buffer, size_t length, const std::shared_ptr<MemoryPool>& pool);
+
+ private:
+    static constexpr int32_t VERSION = 1;
 };
 
 /// Represents the result of a Top-K query against a global index.
