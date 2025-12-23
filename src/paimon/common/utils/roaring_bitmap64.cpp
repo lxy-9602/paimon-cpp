@@ -126,7 +126,7 @@ RoaringBitmap64::RoaringBitmap64(const RoaringBitmap32& other) noexcept {
 }
 
 RoaringBitmap64& RoaringBitmap64::operator=(const RoaringBitmap32& other) noexcept {
-    auto bitmap32 = (static_cast<roaring::Roaring*>(other.roaring_bitmap_));
+    auto bitmap32 = static_cast<roaring::Roaring*>(other.roaring_bitmap_);
     if (!roaring_bitmap_) {
         roaring_bitmap_ = new roaring::Roaring64Map(*bitmap32);
     } else {

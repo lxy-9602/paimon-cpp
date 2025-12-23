@@ -188,11 +188,18 @@ TEST_F(BitmapGlobalIndexResultTest, TestFromRanges) {
 }
 
 TEST_F(BitmapGlobalIndexResultTest, TestAddOffset) {
-    auto result = BitmapGlobalIndexResult::FromRanges({Range(0, 5)});
-    ASSERT_OK_AND_ASSIGN(auto result_with_offset, result->AddOffset(0));
-    ASSERT_EQ(result_with_offset->ToString(), "{0,1,2,3,4,5}");
+    {
+        auto result = BitmapGlobalIndexResult::FromRanges({Range(0, 5)});
+        ASSERT_OK_AND_ASSIGN(auto result_with_offset, result->AddOffset(0));
+        ASSERT_EQ(result_with_offset->ToString(), "{0,1,2,3,4,5}");
 
-    ASSERT_OK_AND_ASSIGN(result_with_offset, result->AddOffset(10));
-    ASSERT_EQ(result_with_offset->ToString(), "{10,11,12,13,14,15}");
+        ASSERT_OK_AND_ASSIGN(result_with_offset, result->AddOffset(10));
+        ASSERT_EQ(result_with_offset->ToString(), "{10,11,12,13,14,15}");
+    }
+    {
+        auto result = BitmapGlobalIndexResult::FromRanges({});
+        ASSERT_OK_AND_ASSIGN(auto result_with_offset, result->AddOffset(10));
+        ASSERT_EQ(result_with_offset->ToString(), "{}");
+    }
 }
 }  // namespace paimon::test

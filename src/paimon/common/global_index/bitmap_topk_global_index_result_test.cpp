@@ -237,11 +237,21 @@ TEST_F(BitmapTopKGlobalIndexResultTest, TestInvalidOr) {
 }
 
 TEST_F(BitmapTopKGlobalIndexResultTest, TestAddOffset) {
-    std::vector<int64_t> ids = {1, 2, 3};
-    std::vector<float> scores = {1.1f, 1.2f, 1.3f};
-    auto index_result = std::make_shared<BitmapTopKGlobalIndexResult>(RoaringBitmap64::From(ids),
-                                                                      std::move(scores));
-    ASSERT_OK_AND_ASSIGN(auto result_with_offset, index_result->AddOffset(10));
-    ASSERT_EQ(result_with_offset->ToString(), "row ids: {11,12,13}, scores: {1.1,1.2,1.3}");
+    {
+        std::vector<int64_t> ids = {1, 2, 3};
+        std::vector<float> scores = {1.1f, 1.2f, 1.3f};
+        auto index_result = std::make_shared<BitmapTopKGlobalIndexResult>(
+            RoaringBitmap64::From(ids), std::move(scores));
+        ASSERT_OK_AND_ASSIGN(auto result_with_offset, index_result->AddOffset(10));
+        ASSERT_EQ(result_with_offset->ToString(), "row ids: {11,12,13}, scores: {1.1,1.2,1.3}");
+    }
+    {
+        std::vector<int64_t> ids = {};
+        std::vector<float> scores = {};
+        auto index_result = std::make_shared<BitmapTopKGlobalIndexResult>(
+            RoaringBitmap64::From(ids), std::move(scores));
+        ASSERT_OK_AND_ASSIGN(auto result_with_offset, index_result->AddOffset(10));
+        ASSERT_EQ(result_with_offset->ToString(), "row ids: {}, scores: {}");
+    }
 }
 }  // namespace paimon::test
