@@ -1464,7 +1464,7 @@ TEST_P(GlobalIndexTest, TestDataEvolutionBatchScanWithVectorSearch) {
 
         auto expected_array =
             arrow::ipc::internal::json::ArrayFromJSON(arrow::struct_(result_fields), R"([
-[0, "Bob", [0.0, 1.0, 0.0, 1.0], 10, 12.1, 2.01], 
+[0, "Bob", [0.0, 1.0, 0.0, 1.0], 10, 12.1, 2.01],
 [0, "Tony", [1.0, 1.0, 1.0, 1.0], 10, 14.1, 0.01]
     ])")
                 .ValueOrDie();

@@ -89,9 +89,10 @@ class LuminaIndexReader : public GlobalIndexReader {
         std::unique_ptr<::lumina::extensions::SearchWithFilterExtension>&& searcher_with_filter,
         const std::shared_ptr<LuminaMemoryPool>& pool);
 
-    ~LuminaIndexReader() {
-        [[maybe_unused]]auto status = searcher_->Close();
+    ~LuminaIndexReader() override {
+        [[maybe_unused]] auto status = searcher_->Close();
     }
+
     Result<std::shared_ptr<VectorSearchGlobalIndexResult>> VisitVectorSearch(
         const std::shared_ptr<VectorSearch>& vector_search) override;
 

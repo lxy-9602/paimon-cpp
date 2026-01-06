@@ -15,8 +15,10 @@
  */
 
 #pragma once
+#include <functional>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "paimon/predicate/predicate.h"
 #include "paimon/visibility.h"
