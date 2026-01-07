@@ -69,7 +69,7 @@ GlobalIndexEvaluatorImpl::EvaluateVectorSearch(
     if (predicate_result && vector_search->pre_filter != nullptr) {
         return Status::Invalid("Predicate result and pre_filter in VectorSearch conflict");
     }
-    auto finial_vector_search = vector_search;
+    auto final_vector_search = vector_search;
     if (predicate_result) {
         auto bitmap_global_index_result =
             std::dynamic_pointer_cast<BitmapGlobalIndexResult>(predicate_result.value());
@@ -80,13 +80,13 @@ GlobalIndexEvaluatorImpl::EvaluateVectorSearch(
         PAIMON_ASSIGN_OR_RAISE(const RoaringBitmap64* bitmap,
                                bitmap_global_index_result->GetBitmap());
         assert(bitmap);
-        finial_vector_search = vector_search->ReplacePreFilter(
+        final_vector_search = vector_search->ReplacePreFilter(
             [bitmap_global_index_result, bitmap](int64_t row_id) -> bool {
                 return bitmap->Contains(row_id);
             });
     }
     PAIMON_ASSIGN_OR_RAISE(std::shared_ptr<GlobalIndexResult> vector_search_result,
-                           vector_search_reader->VisitVectorSearch(finial_vector_search));
+                           vector_search_reader->VisitVectorSearch(final_vector_search));
     return std::optional<std::shared_ptr<GlobalIndexResult>>(vector_search_result);
 }
 

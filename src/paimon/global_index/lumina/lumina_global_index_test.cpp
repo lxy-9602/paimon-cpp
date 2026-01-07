@@ -191,7 +191,7 @@ TEST_F(LuminaGlobalIndexTest, TestSimple) {
         ASSERT_OK_AND_ASSIGN(auto vector_search_result,
                              reader->VisitVectorSearch(std::make_shared<VectorSearch>(
                                  /*field_name=*/"f0", /*limit=*/4, query_, /*filter=*/nullptr,
-                                 /*predicate*/ nullptr)));
+                                 /*predicate=*/nullptr)));
         CheckResult(vector_search_result, {3l, 1l, 2l, 0l}, {0.01f, 2.01f, 2.21f, 4.21f});
     }
     {
@@ -199,7 +199,7 @@ TEST_F(LuminaGlobalIndexTest, TestSimple) {
         ASSERT_OK_AND_ASSIGN(auto vector_search_result,
                              reader->VisitVectorSearch(std::make_shared<VectorSearch>(
                                  /*field_name=*/"f0", /*limit=*/3, query_, /*filter=*/nullptr,
-                                 /*predicate*/ nullptr)));
+                                 /*predicate=*/nullptr)));
         CheckResult(vector_search_result, {3l, 1l, 2l}, {0.01f, 2.01f, 2.21f});
     }
     {
@@ -222,7 +222,7 @@ TEST_F(LuminaGlobalIndexTest, TestWithFilter) {
         ASSERT_OK_AND_ASSIGN(auto vector_search_result,
                              reader->VisitVectorSearch(std::make_shared<VectorSearch>(
                                  /*field_name=*/"f0", /*limit=*/2, query_, /*filter=*/nullptr,
-                                 /*predicate*/ nullptr)));
+                                 /*predicate=*/nullptr)));
         CheckResult(vector_search_result, {3l, 1l}, {0.01f, 2.01f});
     }
     {
@@ -230,7 +230,7 @@ TEST_F(LuminaGlobalIndexTest, TestWithFilter) {
         ASSERT_OK_AND_ASSIGN(auto vector_search_result,
                              reader->VisitVectorSearch(std::make_shared<VectorSearch>(
                                  /*field_name=*/"f0", /*limit=*/2, query_, filter,
-                                 /*predicate*/ nullptr)));
+                                 /*predicate=*/nullptr)));
         CheckResult(vector_search_result, {1l, 2l}, {2.01f, 2.21f});
     }
     {
@@ -238,7 +238,7 @@ TEST_F(LuminaGlobalIndexTest, TestWithFilter) {
         ASSERT_OK_AND_ASSIGN(auto vector_search_result,
                              reader->VisitVectorSearch(std::make_shared<VectorSearch>(
                                  /*field_name=*/"f0", /*limit=*/4, query_, filter,
-                                 /*predicate*/ nullptr)));
+                                 /*predicate=*/nullptr)));
         CheckResult(vector_search_result, {1l, 2l, 0l}, {2.01f, 2.21f, 4.21f});
     }
 }
@@ -410,7 +410,7 @@ TEST_F(LuminaGlobalIndexTest, TestHighCardinalityAndMultiThreadSearch) {
         ASSERT_OK_AND_ASSIGN(
             auto vector_search_result,
             reader->VisitVectorSearch(std::make_shared<VectorSearch>("f0", limit, query_, filter,
-                                                                     /*predicate*/ nullptr)));
+                                                                     /*predicate=*/nullptr)));
         auto typed_result =
             std::dynamic_pointer_cast<BitmapVectorSearchGlobalIndexResult>(vector_search_result);
         ASSERT_TRUE(typed_result);
@@ -422,7 +422,7 @@ TEST_F(LuminaGlobalIndexTest, TestHighCardinalityAndMultiThreadSearch) {
         ASSERT_OK_AND_ASSIGN(auto vector_search_result,
                              reader->VisitVectorSearch(
                                  std::make_shared<VectorSearch>("f0", k, query_, /*filter=*/nullptr,
-                                                                /*predicate*/ nullptr)));
+                                                                /*predicate=*/nullptr)));
         auto typed_result =
             std::dynamic_pointer_cast<BitmapVectorSearchGlobalIndexResult>(vector_search_result);
         ASSERT_TRUE(typed_result);

@@ -40,6 +40,8 @@ class PAIMON_EXPORT GlobalIndexReader : public FunctionVisitor<std::shared_ptr<G
     /// VisitVectorSearch performs approximate vector similarity search.
     /// @note `VisitVectorSearch` is thread-safe (not coroutine-safe) while other `VisitXXX` is not
     /// thread-safe.
+    /// @warning `VisitVectorSearch` may return error status when it is incorrectly invoked (e.g.,
+    /// BitmapGlobalIndexReader call `VisitVectorSearch`).
     virtual Result<std::shared_ptr<VectorSearchGlobalIndexResult>> VisitVectorSearch(
         const std::shared_ptr<VectorSearch>& vector_search) = 0;
 };
